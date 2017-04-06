@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.*?>
+
+<!-- BorderPane contains everything we need -->
+<BorderPane xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1"
+            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0"
+            fx:controller="ke1_schneider_eberhard.Main_SceneController">
+
+    <!-- now the drop down menus in the top section of the BorderPane -->
+    <top>
+        <VBox> <!-- menus are contained in a VBox -->
+            <MenuBar>
+                <menus>
+                    <Menu text="File">
+                        <items>
+                            <MenuItem fx:id="menu_save" text="Save Image" onAction="#menuSaveImage"  />
+                            <MenuItem text="Quit"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Generators">
+                        <items>
+                            <MenuItem text="Simple Generator" onAction="#menuSimpleGenerator"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+        </VBox>
+    </top>
+
+
+    <!-- in the center we set our canvas, because it should be scrollable
+    we use a ScrollPane to wrap it, so we can scroll it when it's getting
+    oo big -->
+    <center>
+        <ScrollPane fx:id="canvas_pane" prefHeight="400.0" prefWidth="600.0">
+            <Canvas width="2000" height="2000" fx:id="canvas"/>
+        </ScrollPane>
+    </center>
+
+    <!-- at the bottom is the status bar, which is represented by a label -->
+    <bottom>
+        <Label text="Status Bar" BorderPane.alignment="CENTER" fx:id="statusBar"/>
+    </bottom>
+
+
+</BorderPane>
+
