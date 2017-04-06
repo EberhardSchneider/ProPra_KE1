@@ -12,8 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 
 /**
  *
@@ -24,12 +26,15 @@ public class KE1_Schneider_Eberhard extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // to present the main window maximized, we maximize the stage
+        // um das Hauptwindow maximiert auszugeben, maximieren wir die Stage
         primaryStage.setMaximized(true);
 
         // we connect a new scene with the fxml class Main_Window.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("Main_Scene.fxml"));
-        Scene scene = new Scene(root, 300, 250);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main_Scene.fxml"));
+        BorderPane pane = loader.load();
+        Scene scene = new Scene(pane, 300, 250);
+        Main_SceneController controller = loader.getController();
+        controller.setStage( primaryStage );
 
         // set title for stage and show our scene on it
         primaryStage.setTitle("Generators");

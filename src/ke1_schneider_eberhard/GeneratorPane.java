@@ -21,23 +21,24 @@ import javafx.scene.shape.Circle;
 public class GeneratorPane extends GridPane {
 
     // every generator needs something to paint on
-    Canvas canvas;
+    ScrollPane canvasPane;
 
     // constructor is not used, but if it's used in the future
     // it should get the canvas
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
+    public void setCanvasPane(ScrollPane canvasPane) {
+        this.canvasPane = canvasPane;
     }
 
-    public Canvas getCanvas() {
-        return this.canvas;
+    public ScrollPane getCanvasPane() {
+        return this.canvasPane;
     }
 
     public void draw(int radius) {
-        if (canvas == null) {
+        if (canvasPane == null) {
             System.out.println("GeneratorPane: canvas is not set, can't draw");
             return;
         }
+        Canvas canvas = (Canvas)canvasPane.getContent();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLUE);
         gc.fillOval(140, 130, radius, radius);

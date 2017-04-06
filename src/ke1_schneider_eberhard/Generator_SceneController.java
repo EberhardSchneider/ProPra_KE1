@@ -36,6 +36,7 @@ public class Generator_SceneController implements Initializable {
     }
 
     public void btnGeneratePressed(ActionEvent event) {
+        
         generatorPane.draw(this.circleRadius);
     }
 

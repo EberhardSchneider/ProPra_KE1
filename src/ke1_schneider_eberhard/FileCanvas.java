@@ -23,35 +23,23 @@ public class FileCanvas extends Canvas {
     private int width;
     private int height;
     
-    // wir benötigen einen Zeiger auf die Stage, um den File Dialog öffnen
-    // zu können
-    private Stage primaryStage;
     
     // Der Constructor setzt die Werte für width und height
     public FileCanvas( int width, int height) {
         this.width = width;
         this.height = height;
     }
+
     
-    public void setStage( Stage stage ) {
-        this.primaryStage = stage;
-    }
-    
+
     /**
      * Speichert den Inhalt der Zeichenfläche in eine Datei, die vom Benutzer
      * durch einen FileChooser ausgewählt wird.
      */
     
-    public void saveContent() {
+    public void saveContent( File file ) {
         
-        // neuen FileChooser erstellen
-        FileChooser fc = new FileChooser();
-        
-        // Extensionen filtern
-        ExtensionFilter filter = new ExtensionFilter("png files (*.png", "*.png");
-        fc.getExtensionFilters().add( filter );
-        // Zeige den Save Dialog
-        File file = fc.showSaveDialog(primaryStage);
+       
         
         // wir werden die snapshot() Methode benutzen,
         // dafür benötigen zuerst ein writableImage

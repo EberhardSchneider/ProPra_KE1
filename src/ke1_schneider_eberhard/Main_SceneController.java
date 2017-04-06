@@ -5,6 +5,7 @@
  */
 package ke1_schneider_eberhard;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -27,17 +29,37 @@ import javafx.stage.Stage;
 public class Main_SceneController {
 
     @FXML
-    Canvas canvas;
+    ScrollPane canvasPane;
 
     @FXML
     Label statusBar;
 
     @FXML
     MenuItem menu_save;
+    
+    // wir sichern eine Referenz auf das Hauptfenster
+    Stage primaryStage;
+    
+    // da die Referent aus der Main-Klasse heraus gesetzt werden muss
+    // brauchen wir diese Methode, um sie zu setzen
+    public void setStage(Stage stage ) {
+        this.primaryStage = stage;
+    }
 
     @FXML
     public void menuSaveImage() {
         statusBar.setText("Save Image");
+        
+         // neuen FileChooser erstellen
+        FileChooser fc = new FileChooser();
+        
+        // Extensionen filtern
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("png files (*.png", "*.png");
+        fc.getExtensionFilters().add( filter );
+        // Zeige den Save Dialog
+        File file = fc.showSaveDialog(primaryStage);
+        FileCanvas canvas = (FileCanvas)canvasPane.getContent();
+        canvas.saveContent( file );
     }
 
     @FXML
@@ -45,6 +67,8 @@ public class Main_SceneController {
 
         // set status bar text
         statusBar.setText("Simple Generator");
+        
+        
 
         // load new Scene for the Simple Generator Dialog
         GeneratorPane generatorPane = new GeneratorPane();
@@ -54,8 +78,9 @@ public class Main_SceneController {
         } catch (IOException e) {
             e.printStackTrace(System.err);
         }
-
-        generatorPane.setCanvas(canvas);
+        // give the Generator Dialog the ScrollPane in which it has to 
+        // place the new Canvas Element
+        generatorPane.setCanvasPane( canvasPane );
 
         // set new stage i.e. new window for the dialog
         Stage dialogStage = new Stage();
