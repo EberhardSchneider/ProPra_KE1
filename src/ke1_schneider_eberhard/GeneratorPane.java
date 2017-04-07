@@ -10,7 +10,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 /**
  *
@@ -20,25 +19,23 @@ import javafx.scene.shape.Circle;
 // there are parameters
 public class GeneratorPane extends GridPane {
 
-    // every generator needs something to paint on
+    // GeneratorPane speichert eine Referenz auf das Elternelement des
+    // zu generierenden Canvas, hier das ScrollPane des Hauptfensters
     ScrollPane canvasPane;
 
-    // constructor is not used, but if it's used in the future
-    // it should get the canvas
-    public void setCanvasPane(ScrollPane canvasPane) {
-        this.canvasPane = canvasPane;
+    public void setCanvasPane(ScrollPane pane) {
+        this.canvasPane = pane;
     }
 
-    public ScrollPane getCanvasPane() {
-        return this.canvasPane;
-    }
-
-    public void draw(int radius) {
+    public void generate(double radius, int width, int height) {
         if (canvasPane == null) {
             System.out.println("GeneratorPane: canvas is not set, can't draw");
             return;
         }
-        Canvas canvas = (Canvas)canvasPane.getContent();
+
+        FileCanvas canvas = new FileCanvas(width, height);
+        canvasPane.setContent(canvas);
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLUE);
         gc.fillOval(140, 130, radius, radius);

@@ -8,15 +8,15 @@
 <?import javafx.scene.canvas.*?>
 <?import ke1_schneider_eberhard.FileCanvas?>
 
-<!-- BorderPane contains everything we need -->
+<!-- Das BorderPane beinhaltet alles, was das Hauptfenster braucht: Menus, ScrollPane für den Canvas und die Status Zeile -->
 <BorderPane xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1"
             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0"
             fx:controller="ke1_schneider_eberhard.Main_SceneController">
 
-    <!-- now the drop down menus in the top section of the BorderPane -->
+    <!-- zuerst die Menüs im Top-Bereich des BorderPanes -->
     <top>
-        <VBox> <!-- menus are contained in a VBox -->
+        <VBox> <!-- die Menüs sind in einer VBox enthalten -->
             <MenuBar>
                 <menus>
                     <Menu text="File">
