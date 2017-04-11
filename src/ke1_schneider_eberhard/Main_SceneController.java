@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke1_schneider_eberhard;
 
 import java.io.File;
@@ -19,88 +14,95 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML Controller class for the Main Window
+ * here is the main organization and the implementation of 
+ * the menu functionality
  *
- * @author eberh_000
+ * @author Eberhard Schneider
  */
 public class Main_SceneController {
 
-    // Referenz auf das ScrollPane, das die Zeichenfläche enthalten wird
+    //the ScrollPane which wraps the FileCanvas, which is yet to be created
     @FXML
     ScrollPane canvasPane;
 
-    // Referenz auf die Statusanzeige
+    // the status bar
     @FXML
     Label statusBar;
 
-    // Referenz auf den Menüpunkt: File -> Save
+    // the MenuItem 'Save Image'
+    // we need this to be able to enable it, as soon as a canvas is created
     @FXML
     MenuItem menu_save;
 
-    // speichert, ob der SimpleGenerator Dialog schon geöffnet wurde
+    // stores if SimpleGenerator is open or not
+    // to be shure it is not opened twice
     private boolean isSimpleGeneratorDialogOpen = false;
 
-    // der Radius des zu zeichnenden Kreises
-    private double circleRadius;
 
-    // wir sichern eine Referenz auf das Hauptfenster, um später
-    // den FileChooser Dialog öffnen zu können
+    // we store a reference on the main window (primary Stage)
+    // we need this to open the FileChooser Dialog
     Stage primaryStage;
 
-    // da die Referenz aus der Main-Klasse heraus gesetzt werden muss
-    // brauchen wir diese Methode, um sie zu setzen
+    // setter method for the primaryStage reference
     public void setStage(Stage stage) {
         this.primaryStage = stage;
     }
+    
+    // the slider which changes the radius of the circle
+    private Slider radiusSlider;
 
+    
     /**
-     * wird aufgerufen, wenn der Menüpunkt File->Save ausgewählt wird und
-     * speichert den Inhalt der Zeichenfläche in einer .png Datei, die durch
-     * einen FileChooser vom Benutzer ausgewählt wird.
+     * is called when MenuItem File->Save Image is chosen
+     * stores the content of the canvas in a .png File, which is selected
+     * by the user through a FileChooser dialog
      *
+     * TODO: implement possibility to store jpg and gif
      */
     @FXML
     public void menuSaveImage() {
 
-        // Status aktualisieren
-        statusBar.setText("Bild wird gespeichert."); // die Zeichenfläche holen (sie ist content des ScrollPanes canvasPane)
+        // set status
+        statusBar.setText("Bild wird gespeichert."); 
+        
+        // first we get the canvas
         FileCanvas canvas;
         try {
             canvas = (FileCanvas) canvasPane.getContent();
         } catch (NullPointerException e) {
-            canvas = null; // wenn noch keine Zeichenfläche erzeugt wurde
+            canvas = null; // if a canvas is not yet created
         }
 
-        // falls keine Zeichenfläche vorhanden ist, wurde noch kein Bild generiert
-        // in diesem Falle abbrechen
+        // oops.. no canvas there, so we return
         if (canvas == null) {
             return;
         }
 
-        // neuen FileChooser erstellen
+        // create new FileChooser dialog
         FileChooser fc = new FileChooser();
 
-        // Extensionen filtern
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+        // only allow the extension 'png'
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("png Files", "*.png");
         fc.getExtensionFilters().add(filter);
 
-        // Zeige den Save Dialog
+        // show the dialog
         File file = fc.showSaveDialog(primaryStage);
 
-        // Falls ein Speicherort ausgewählt wurde
+        // first we check if a file was chosen, if not, we do nothing
         if (file != null) {
-            // die save-Methode der Zeichenfläche ausführen
+            // call saveContent() method of FileCanvas
             canvas.saveContent(file);
         }
 
-        // Status aktualisieren
+        // set status
         statusBar.setText("Bild gespeichert.");
     }
 
     /**
-     * Wird aufgerufen, sobald File->Exit ausgewählt wird
+     * called when File->Quit is chosen.
      *
-     * schließt die Anwendung
+     * closes the app.
      */
     @FXML
     void menuExit() {
@@ -108,43 +110,43 @@ public class Main_SceneController {
     }
 
     /**
-     * wird aufgerufen, sobald Generator->Simple Generator ausgewählt wied
+     * called, when Generators->Simple Generator is chosen
      *
-     * erstellt den Simple Generator Dialog
+     * creates the SimpleGenerator dialog
      */
     @FXML
     void menuSimpleGenerator() {
 
-        // wenn schon ein Simple Generator Dialog geöffnet ist, brechen wir
-        // sofort ab
+        // if a SimpleGenerator dialog is already open, we return
         if (isSimpleGeneratorDialogOpen) {
             return;
         }
 
-        // da aber jetzt einer geöffnet wird, speichern wir das
+        // now we open one, so we set the variable to true
         isSimpleGeneratorDialogOpen = true;
 
-        // Status aktualisieren
-        statusBar.setText("Simple Generator");
+        // set status
+        statusBar.setText("Simple Generator ready.");
 
-        // GeneratorPane ist ein GridPane, das den Generator Dialog enthält
-        // und die Methode generate() zur Verfügung stellt, um eine Zeichenfläche
-        // und eine Grafik auf dieser zu erstellen
+  
+        // GeneratorPane is a GridPane, which contains the Generator Dialog
+        // and the generate() method, which returns a canvas and a grpahic on it
+        
         GeneratorPane generatorPane = new GeneratorPane();
 
-        // der Generator Dialog wird hier gebaut und nicht mit FXML,
-        // da ich keine Lösung gefunden habe,
-        // FXML Loader
+        // we build the Generator Dialog here, and not in FXML
+        // this is much simpler, but for modularity's sake it should be
+        // changed, when there are more Generators
+        // 1) by a getDialog() method of the GeneratorPane
+        // or 2) build everything in FXML
+        
         // Slider to change the radius of the circle
-        Slider slider = new Slider();
-        slider.setMin(5);
-        slider.setMax(300);
-        slider.setMajorTickUnit(5);
-        slider.setValue(100);
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.circleRadius = (double) newValue;
-        });
-
+        radiusSlider = new Slider();
+        radiusSlider.setMin(5);
+        radiusSlider.setMax(300);
+        radiusSlider.setMajorTickUnit(5);
+        radiusSlider.setValue(100);
+      
         // and the label for the Slider
         Label labelSlider = new Label("Radius");
 
@@ -154,21 +156,29 @@ public class Main_SceneController {
         Label labelWidth = new Label("Width");
         TextField textfieldWidth = new TextField();
 
-        // Standardwerte setzen
+        // set standard
         textfieldHeight.setText("400");
         textfieldWidth.setText("600");
 
         // the generate Button
         Button button = new Button();
         button.setText("Generate");
+        
+        // is called when the 'Generate' button is clicked
+        // reads parameters from the dialog and calls
+        // the generate() method of the generatorPane
         button.setOnAction(event -> {
 
+             // set status
+             statusBar.setText("Calculating.");
+             
             // get width and height
             int width;
             int height;
-            // der Inhalt der TextFields für Höhe und Breit wird in die
-            // entsprechenden Variablen übergeben, falls keine Integers
-            // dort zu finden sind, brechen wir ab.
+            
+            // contents of textfields are parsed
+            // if no integer values are found there, we set
+            // a status message and return 
             try {
                 String widthString = textfieldWidth.getText();
                 String heightString = textfieldHeight.getText();
@@ -178,13 +188,29 @@ public class Main_SceneController {
                 statusBar.setText("Bitte Integer Werte eingeben.");
                 return;
             }
+            
+            // get the radius from the slider
+            double circleRadius = radiusSlider.valueProperty().get();
+            
+            // now we clamp the values width and height to the right ranges
+            width = (width < 1) ? 1 : width;
+            height = (height < 1 ) ? 1: height;
+            width = (width > FileCanvas.MAX_WIDTH ) ? FileCanvas.MAX_WIDTH : width;
+            height = (height > FileCanvas.MAX_HEIGHT ) ? FileCanvas.MAX_HEIGHT : height;
+
+            // we generate the Canvas and show it in our scrollPane
             FileCanvas generatedCanvas = generatorPane.generate(circleRadius, width, height);
             canvasPane.setContent(generatedCanvas);
+            
+            // now we can enable the 'Save Image' menu
+            menu_save.setDisable( false );
         });
+        
+        // now we build the dialog by adding all elements
 
         generatorPane.setPrefSize(400, 200);
 
-        generatorPane.getChildren().add(slider);
+        generatorPane.getChildren().add(radiusSlider);
         generatorPane.getChildren().add(labelSlider);
         generatorPane.getChildren().add(button);
         generatorPane.getChildren().add(labelHeight);
@@ -192,9 +218,10 @@ public class Main_SceneController {
         generatorPane.getChildren().add(textfieldHeight);
         generatorPane.getChildren().add(textfieldWidth);
 
-        GridPane.setRowIndex(slider, 0);
+        // and keep everything ordered
+        GridPane.setRowIndex(radiusSlider, 0);
         GridPane.setRowIndex(labelSlider, 0);
-        GridPane.setColumnIndex(slider, 1);
+        GridPane.setColumnIndex(radiusSlider, 1);
         GridPane.setRowIndex(labelHeight, 1);
         GridPane.setRowIndex(textfieldHeight, 1);
         GridPane.setRowIndex(textfieldWidth, 2);
@@ -208,18 +235,21 @@ public class Main_SceneController {
         generatorPane.setHgap(30.0);
         generatorPane.setVgap(30.0);
 
-        // neue Stage, d.h. neues Fenster für den Generator Dialog
+        // we build a new Stage / Window for the dialog
         Stage dialogStage = new Stage();
 
-        // sobald der Dialog wieder geschlossen wird, setzen wir die Variable
-        // isSimpleGeneratorDialogOpen wieder auf false
+        // as soon as the dialog is closed, we have to reset
+        // the isSimpleGeneratorDialogOpen-variable
+        // we do this by a listener
         dialogStage.setOnCloseRequest(event -> {
             this.isSimpleGeneratorDialogOpen = false;
         });
 
+        // we put the generatorPane on our Stage
         Scene dialogScene = new Scene(generatorPane);
         dialogStage.setScene(dialogScene);
 
+        // and show it
         dialogStage.show();
 
     }

@@ -8,26 +8,31 @@
 <?import javafx.scene.canvas.*?>
 <?import ke1_schneider_eberhard.FileCanvas?>
 
-<!-- Das BorderPane beinhaltet alles, was das Hauptfenster braucht: Menus, ScrollPane für den Canvas und die Status Zeile -->
-<BorderPane xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1"
-            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<!-- the BorderPane contains everything we need: menus, ScrollPane and status bar -->
+<BorderPane xmlns="http://javafx.com/javafx/8.0.112-ea" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            maxHeight="-Infinity" maxWidth="-Infinity" 
+            minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0"
             fx:controller="ke1_schneider_eberhard.Main_SceneController">
 
-    <!-- zuerst die Menüs im Top-Bereich des BorderPanes -->
+    <!-- first the menus in the top section of the BorderPanes -->
     <top>
-        <VBox> <!-- die Menüs sind in einer VBox enthalten -->
+        <VBox> <!-- menus are containt in a VBox -->
             <MenuBar>
                 <menus>
                     <Menu text="File">
                         <items>
-                            <MenuItem fx:id="menu_save" text="Save Image" onAction="#menuSaveImage"  />
+                            <!-- we disable the Save Image option, until a canvas is created -->
+                            <MenuItem fx:id="menu_save" text="Save Image" 
+                                      onAction="#menuSaveImage" disable="true" /> 
                             <MenuItem text="Exit" onAction="#menuExit" />
                         </items>
                     </Menu>
                     <Menu text="Generators">
                         <items>
-                            <MenuItem text="Simple Generator" onAction="#menuSimpleGenerator"/>
+                            <MenuItem text="Simple Generator" 
+                                      onAction="#menuSimpleGenerator"/>
                         </items>
                     </Menu>
                 </menus>
@@ -36,12 +41,10 @@
     </top>
 
 
-    <!-- in the center we set our canvas, because it should be scrollable
-    we use a ScrollPane to wrap it, so we can scroll it when it's getting
-    oo big -->
+    <!-- in the center we want to display our canvas as soon as it is created.
+         because it should be scrollable we use a ScrollPane to wrap it -->
     <center>
         <ScrollPane prefHeight="400.0" prefWidth="600.0" fx:id="canvasPane">
-            <!-- <FileCanvas width="2000" height="2000" fx:id="canvas"/> -->
         </ScrollPane>
     </center>
 
