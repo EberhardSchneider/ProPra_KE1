@@ -97,22 +97,43 @@ public class Main_SceneController {
         statusBar.setText("Bild gespeichert.");
     }
 
+    /**
+     * Wird aufgerufen, sobald File->Exit ausgewählt wird
+     *
+     * schließt die Anwendung
+     */
+    @FXML
+    void menuExit() {
+        System.exit(0);
+    }
+
+    /**
+     * wird aufgerufen, sobald Generator->Simple Generator ausgewählt wied
+     *
+     * erstellt den Simple Generator Dialog
+     */
     @FXML
     void menuSimpleGenerator() {
 
+        // wenn schon ein Simple Generator Dialog geöffnet ist, brechen wir
+        // sofort ab
         if (isSimpleGeneratorDialogOpen) {
             return;
         }
 
+        // da aber jetzt einer geöffnet wird, speichern wir das
         isSimpleGeneratorDialogOpen = true;
+
         // Status aktualisieren
         statusBar.setText("Simple Generator");
 
-        // load new Scene for the Simple Generator Dialog
+        // GeneratorPane ist ein GridPane, das den Generator Dialog enthält
+        // und die Methode generate() zur Verfügung stellt, um eine Zeichenfläche
+        // und eine Grafik auf dieser zu erstellen
         GeneratorPane generatorPane = new GeneratorPane();
 
-        // we build the Generator Dialog here, and not with FXML, because
-        // I don't know how to implement Singleton Pattern with an
+        // der Generator Dialog wird hier gebaut und nicht mit FXML,
+        // da ich keine Lösung gefunden habe,
         // FXML Loader
         // Slider to change the radius of the circle
         Slider slider = new Slider();
@@ -123,6 +144,9 @@ public class Main_SceneController {
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             this.circleRadius = (double) newValue;
         });
+
+        // and the label for the Slider
+        Label labelSlider = new Label("Radius");
 
         // two TextFields to enter width and height
         Label labelHeight = new Label("Height");
@@ -140,8 +164,8 @@ public class Main_SceneController {
         button.setOnAction(event -> {
 
             // get width and height
-            int width = 0;
-            int height = 0;
+            int width;
+            int height;
             // der Inhalt der TextFields für Höhe und Breit wird in die
             // entsprechenden Variablen übergeben, falls keine Integers
             // dort zu finden sind, brechen wir ab.
@@ -154,12 +178,14 @@ public class Main_SceneController {
                 statusBar.setText("Bitte Integer Werte eingeben.");
                 return;
             }
-            generatorPane.generate(circleRadius, width, height);
+            FileCanvas generatedCanvas = generatorPane.generate(circleRadius, width, height);
+            canvasPane.setContent(generatedCanvas);
         });
 
-        generatorPane.setPrefSize(300, 200);
+        generatorPane.setPrefSize(400, 200);
 
         generatorPane.getChildren().add(slider);
+        generatorPane.getChildren().add(labelSlider);
         generatorPane.getChildren().add(button);
         generatorPane.getChildren().add(labelHeight);
         generatorPane.getChildren().add(labelWidth);
@@ -167,6 +193,8 @@ public class Main_SceneController {
         generatorPane.getChildren().add(textfieldWidth);
 
         GridPane.setRowIndex(slider, 0);
+        GridPane.setRowIndex(labelSlider, 0);
+        GridPane.setColumnIndex(slider, 1);
         GridPane.setRowIndex(labelHeight, 1);
         GridPane.setRowIndex(textfieldHeight, 1);
         GridPane.setRowIndex(textfieldWidth, 2);
@@ -175,11 +203,10 @@ public class Main_SceneController {
         GridPane.setColumnIndex(textfieldWidth, 1);
 
         GridPane.setRowIndex(button, 3);
-        GridPane.setColumnIndex(button, 2);
+        GridPane.setColumnIndex(button, 1);
 
-        // wir übergeben dem GeneratorPane das Elternelement, in das es die
-        // generierte Zeichenfläche platzieren wird
-        generatorPane.setCanvasPane(canvasPane);
+        generatorPane.setHgap(30.0);
+        generatorPane.setVgap(30.0);
 
         // neue Stage, d.h. neues Fenster für den Generator Dialog
         Stage dialogStage = new Stage();

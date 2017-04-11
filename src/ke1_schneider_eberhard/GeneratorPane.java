@@ -5,40 +5,39 @@
  */
 package ke1_schneider_eberhard;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 /**
+ * GridPane, das den Generator Dialog beinhaltet und eine Methode generate() zur
+ * Verfügung stellt, die eine Zeichenfläche erstellt, bemalt und eine Referenz
+ * darauf zurückgibt
  *
- * @author eberh_000
+ * @author Eberhard Schneider
  */
-// this could be an interface/abstract, when in the end
-// there are parameters
+// wenn es mehrere Generatoren gibt, könnte dies als Modell eines
+// Interfaces / einer abstrakten Klasse dienen
 public class GeneratorPane extends GridPane {
 
-    // GeneratorPane speichert eine Referenz auf das Elternelement des
-    // zu generierenden Canvas, hier das ScrollPane des Hauptfensters
-    ScrollPane canvasPane;
-
-    public void setCanvasPane(ScrollPane pane) {
-        this.canvasPane = pane;
-    }
-
-    public void generate(double radius, int width, int height) {
-        if (canvasPane == null) {
-            System.out.println("GeneratorPane: canvas is not set, can't draw");
-            return;
-        }
+    /**
+     * gibt eine Referenz auf einen FileCanvas zurück, auf den ein blauer Kreis
+     * mit Radius radius gezeichnet wurde
+     *
+     * @param radius Radius des Kreises
+     * @param width Breite der zu erzeugenden Zeichenfläche
+     * @param height Höhe der zu erzeugenden Zeichenfläche
+     * @return bemalte Zeichenfläche
+     */
+    public FileCanvas generate(double radius, int width, int height) {
 
         FileCanvas canvas = new FileCanvas(width, height);
-        canvasPane.setContent(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLUE);
         gc.fillOval(140, 130, radius, radius);
+
+        return canvas;
     }
 
 }

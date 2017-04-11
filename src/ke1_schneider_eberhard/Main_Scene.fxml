@@ -22,7 +22,7 @@
                     <Menu text="File">
                         <items>
                             <MenuItem fx:id="menu_save" text="Save Image" onAction="#menuSaveImage"  />
-                            <MenuItem text="Quit"/>
+                            <MenuItem text="Exit" onAction="#menuExit" />
                         </items>
                     </Menu>
                     <Menu text="Generators">

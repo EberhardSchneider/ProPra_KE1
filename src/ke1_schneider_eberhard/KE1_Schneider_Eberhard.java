@@ -6,16 +6,10 @@
 package ke1_schneider_eberhard;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 
 /**
  *
@@ -34,7 +28,7 @@ public class KE1_Schneider_Eberhard extends Application {
         BorderPane pane = loader.load();
         Scene scene = new Scene(pane, 300, 250);
         Main_SceneController controller = loader.getController();
-        controller.setStage( primaryStage );
+        controller.setStage(primaryStage);
 
         // set title for stage and show our scene on it
         primaryStage.setTitle("Generators");
