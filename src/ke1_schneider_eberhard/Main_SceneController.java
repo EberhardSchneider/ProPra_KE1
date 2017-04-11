@@ -192,11 +192,9 @@ public class Main_SceneController {
             // get the radius from the slider
             double circleRadius = radiusSlider.valueProperty().get();
             
-            // now we clamp the values width and height to the right ranges
-            width = (width < 1) ? 1 : width;
-            height = (height < 1 ) ? 1: height;
-            width = (width > FileCanvas.MAX_WIDTH ) ? FileCanvas.MAX_WIDTH : width;
-            height = (height > FileCanvas.MAX_HEIGHT ) ? FileCanvas.MAX_HEIGHT : height;
+            // the parameters are checked in the generate() method, so we can
+            // leave them for now
+            
 
             // we generate the Canvas and show it in our scrollPane
             FileCanvas generatedCanvas = generatorPane.generate(circleRadius, width, height);

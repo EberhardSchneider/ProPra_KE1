@@ -29,14 +29,25 @@ public class GeneratorPane extends GridPane {
      * @return FileCanvas with a blue circle
      */
     public FileCanvas generate(double radius, int width, int height) {
-
+        
+        // clamp values in 'acceptable' range
+        width = (width < 1) ? 1 : width;
+        height = (height < 1 ) ? 1: height;
+        width = (width > FileCanvas.MAX_WIDTH ) ? FileCanvas.MAX_WIDTH : width;
+        height = (height > FileCanvas.MAX_HEIGHT ) ? FileCanvas.MAX_HEIGHT : height;
+        
         // create new canvas
         FileCanvas canvas = new FileCanvas(width, height);
+        
 
         // create GraphicsContext, so we can draw on the canvas
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLUE); // set color
-        gc.fillOval(140, 130, radius, radius); // and draw circle
+        // and draw circle in the middle
+        double xCoord = width / 2;
+        double yCoord = height / 2;
+        
+        gc.fillOval( xCoord-radius, yCoord-radius, 2 * radius, 2 * radius); 
 
         return canvas;
     }

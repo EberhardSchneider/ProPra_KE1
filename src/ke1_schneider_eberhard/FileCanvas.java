@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
  */
 public class FileCanvas extends Canvas {
     
+    //
     static final int MAX_WIDTH = 16000;
     static final int MAX_HEIGHT = 9000;
     
