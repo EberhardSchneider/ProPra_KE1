@@ -1,4 +1,3 @@
-
 package ke1_schneider_eberhard;
 
 import javafx.application.Application;
@@ -8,10 +7,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * This is the main class. It creates the main window (primaryStage)
- * and loads the FXML for the Menus and the ScrollPane which will
- * hold the FileCanvas on which eventually is drawn.
- * 
+ * This is the main class. It creates the main window (primaryStage) and loads
+ * the FXML for the Menus and the ScrollPane which will hold the FileCanvas on
+ * which eventually is drawn.
+ *
  * @author Eberhard Schneider
  */
 public class KE1_Schneider_Eberhard extends Application {
@@ -29,7 +28,7 @@ public class KE1_Schneider_Eberhard extends Application {
         // and get the controller from the new FXML scene, so we can transmit
         // the primaryStage to it.
         // (the Main_SceneController needs the primaryStage in order to
-        //  open the FileChooser Dialog)
+        //  open the FileChooser dialog)
         Main_SceneController controller = loader.getController();
         controller.setStage(primaryStage);
 
