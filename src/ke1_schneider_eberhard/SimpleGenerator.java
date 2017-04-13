@@ -1,5 +1,7 @@
 package ke1_schneider_eberhard;
 
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -7,6 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -49,6 +55,10 @@ public class SimpleGenerator implements GeneratorI {
     public Scene getDialogScene() {
         // this gridpane will contain everything we need
         GridPane generatorPane = new GridPane();
+
+        // Title
+        Label title = new Label("Simple Generator");
+        title.setStyle("-fx-font: 25px Mondana");
 
         // Slider to change the radius of the circle
         Slider radiusSlider = new Slider();
@@ -109,34 +119,31 @@ public class SimpleGenerator implements GeneratorI {
         });
 
         // now we build the dialog by adding all elements to the gridpane
-        generatorPane.setPrefSize(400, 200);
+        generatorPane.setPrefSize(300, 400);
+        
+        generatorPane.add( title, 0, 0, 3,1);
+        generatorPane.add(radiusSlider, 1, 1 );
+        generatorPane.add(labelSlider, 0, 1);
+        generatorPane.add(button, 1, 4);
+        generatorPane.add(labelHeight, 0, 2 );
+        generatorPane.add(labelWidth, 0, 3);
+        generatorPane.add(textfieldHeight, 1, 2);
+        generatorPane.add(textfieldWidth, 1, 3);
 
-        generatorPane.getChildren().add(radiusSlider);
-        generatorPane.getChildren().add(labelSlider);
-        generatorPane.getChildren().add(button);
-        generatorPane.getChildren().add(labelHeight);
-        generatorPane.getChildren().add(labelWidth);
-        generatorPane.getChildren().add(textfieldHeight);
-        generatorPane.getChildren().add(textfieldWidth);
+        // we give the colums the right size
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setPrefWidth(150);
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setPrefWidth(200);
+        ColumnConstraints column3 = new ColumnConstraints();
+        column3.setPrefWidth(150);
+        generatorPane.getColumnConstraints().addAll( column1, column2, column3 );
+        // and put a little space between the lines
+        generatorPane.setVgap( 30 );
 
-        // and keep everything ordered
-        GridPane.setRowIndex(radiusSlider, 0);
-        GridPane.setRowIndex(labelSlider, 0);
-        GridPane.setColumnIndex(radiusSlider, 1);
-        GridPane.setRowIndex(labelHeight, 1);
-        GridPane.setRowIndex(textfieldHeight, 1);
-        GridPane.setRowIndex(textfieldWidth, 2);
-        GridPane.setRowIndex(labelWidth, 2);
-        GridPane.setColumnIndex(textfieldHeight, 1);
-        GridPane.setColumnIndex(textfieldWidth, 1);
+        generatorPane.setPadding(new Insets(20,20,20,20 ));
 
-        GridPane.setRowIndex(button, 3);
-        GridPane.setColumnIndex(button, 1);
-
-        generatorPane.setHgap(30.0);
-        generatorPane.setVgap(30.0);
-
-        // we build the scene and give it back
+        // we build the scene and return it
         Scene dialogScene = new Scene(generatorPane);
 
         return dialogScene;
@@ -144,7 +151,7 @@ public class SimpleGenerator implements GeneratorI {
 
     /**
      * generates a new canvas on which is drawn a blue circle
-     *
+     * Parameters are class attributs and changed by EventListeners
      * @return FileCanvas with a blue circle
      */
     @Override
