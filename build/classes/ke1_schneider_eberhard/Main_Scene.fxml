@@ -9,9 +9,9 @@
 <?import ke1_schneider_eberhard.FileCanvas?>
 
 <!-- the BorderPane contains everything we need: menus, ScrollPane and status bar -->
-<BorderPane xmlns="http://javafx.com/javafx/8.0.112-ea" 
+<BorderPane xmlns="http://javafx.com/javafx/8.0.112-ea"
             xmlns:fx="http://javafx.com/fxml/1"
-            maxHeight="-Infinity" maxWidth="-Infinity" 
+            maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0"
             fx:controller="ke1_schneider_eberhard.Main_SceneController">
@@ -24,14 +24,14 @@
                     <Menu text="File">
                         <items>
                             <!-- we disable the Save Image option, until a canvas is created -->
-                            <MenuItem fx:id="menu_save" text="Save Image" 
-                                      onAction="#menuSaveImage" disable="true" /> 
-                            <MenuItem text="Exit" onAction="#menuExit" />
+                            <MenuItem fx:id="menu_save" text="Save Image"
+                                      onAction="#menuSaveImage" disable="true" />
+                            <MenuItem text="Quit" onAction="#menuExit" />
                         </items>
                     </Menu>
                     <Menu text="Generators">
                         <items>
-                            <MenuItem text="Simple Generator" 
+                            <MenuItem text="Simple Generator"
                                       onAction="#menuSimpleGenerator"/>
                         </items>
                     </Menu>
@@ -42,9 +42,9 @@
 
 
     <!-- in the center we want to display our canvas as soon as it is created.
-         because it should be scrollable we use a ScrollPane to wrap it -->
+    because it should be scrollable we use a ScrollPane to wrap it -->
     <center>
-        <ScrollPane prefHeight="400.0" prefWidth="600.0" fx:id="canvasPane">
+        <ScrollPane prefHeight="400.0" prefWidth="600.0" fx:id="canvasWrapper">
         </ScrollPane>
     </center>
 

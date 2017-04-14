@@ -7,7 +7,7 @@ import javafx.scene.Scene;
  *
  * @author Eberhard Schneider
  */
-public interface GeneratorI {
+public interface IGenerator {
 
     // this methods creates a canvas, generates a drawing then returns
     // a reference on it

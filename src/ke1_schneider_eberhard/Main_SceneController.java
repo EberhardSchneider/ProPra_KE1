@@ -11,8 +11,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class for the Main Window here is the main organization and
- * the implementation of the menu functionality
+ * FXML Controller class for the Main Window. here is the main organization and
+ * and mandages menu functionality
  *
  * @author Eberhard Schneider
  */
@@ -20,7 +20,7 @@ public class Main_SceneController {
 
     //the ScrollPane which wraps the FileCanvas, on which is painted
     @FXML
-    ScrollPane canvasPane;
+    ScrollPane canvasWrapper;
 
     // the status bar
     @FXML
@@ -56,6 +56,8 @@ public class Main_SceneController {
      */
     @FXML
     public void menuSaveImage() {
+        // the store method is in the FileCanvas class. every generator can
+        // use it.
 
         // set status
         statusBar.setText("Bild wird gespeichert.");
@@ -63,7 +65,7 @@ public class Main_SceneController {
         // first we get the canvas
         FileCanvas canvas;
         try {
-            canvas = (FileCanvas) canvasPane.getContent();
+            canvas = (FileCanvas) canvasWrapper.getContent();
         } catch (NullPointerException e) {
             canvas = null; // if a canvas is not yet created
         }
@@ -85,7 +87,7 @@ public class Main_SceneController {
 
         // first we check if a file was chosen, if not, we do nothing
         if (file != null) {
-            // call saveContent() method of FileCanvas
+            // call saveContent() method of FileCanvas to store canvas in file
             canvas.saveContent(file);
         }
 
@@ -129,7 +131,7 @@ public class Main_SceneController {
             this.isGeneratorOpen = false;
         });
 
-        GeneratorI simpleGenerator = new SimpleGenerator(statusBar, canvasPane);
+        IGenerator simpleGenerator = new SimpleGenerator(statusBar, canvasWrapper, menu_save);
         // we put the generatorPane on our stage
         Scene dialogScene = simpleGenerator.getDialogScene();
         dialogStage.setScene(dialogScene);
